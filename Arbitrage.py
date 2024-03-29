@@ -1,3 +1,5 @@
+from itertools import combinations
+
 liquidity = {
     ("tokenA", "tokenB"): (17, 10),
     ("tokenA", "tokenC"): (11, 7),
@@ -29,12 +31,13 @@ def getAmountsOut(factory, amountIn, path):
     for i,factory in enumerate(path):
         if (i >= len(path)-1): break
         if (path[i]==path[i+1]):
-            print("consecutive same token")
+            # print("consecutive same token")
             return []
         (reserveIn, reserveOut) = getReserves(factory,path[i],path[i+1])
+        # print((reserveIn, reserveOut))
         amountOut = getAmountOut(amounts[i],reserveIn,reserveOut)
         amounts.append(amountOut)
-        update(amountIn,amountOut,factory,path[i],path[i+1])
+        # update(amountIn,amountOut,factory,path[i],path[i+1])
     return amounts
 
 def getReserves(factory, token0, token1):
@@ -54,7 +57,15 @@ def update(amountIn,amountOut,factory,token0,token1):
         (_reserveOut, _reserveIn) = liquidity[(tokenOut,tokenIn)]
         liquidity[(tokenOut,tokenIn)] = (_reserveOut-amountOut,_reserveIn+amountIn)
 
-# path = ['tokenB','tokenA','tokenB','tokenA','tokenB']
-# amounts = getAmountsOut('tokenB',5,path)
+path = ['tokenB','tokenA','tokenD','tokenC','tokenB']
+amounts = getAmountsOut('tokenB',5,path)
 print(amounts)
-tokens = ['tokenA','tokenB','tokenC','tokenD','tokenE']
+
+# tokens = ['tokenA','tokenB','tokenC','tokenD','tokenE']
+# n = 1
+# comb = combinations(tokens, n)
+ 
+# for _comb in list(comb):
+#     liquidity = liquidity_copied
+#     path = ['tokenB','tokenA','tokenE','tokenD']+list(_comb)+['tokenB']
+#     print (path,getAmountsOut('tokenB',5,path))
