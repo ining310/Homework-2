@@ -57,9 +57,15 @@ def update(amountIn,amountOut,factory,token0,token1):
         (_reserveOut, _reserveIn) = liquidity[(tokenOut,tokenIn)]
         liquidity[(tokenOut,tokenIn)] = (_reserveOut-amountOut,_reserveIn+amountIn)
 
+def printFormat(path, amounts):
+    for _path in path:
+        print(_path,sep="->",end=", ")
+    print(path[-1]," balance=",amounts[-1],sep="")
+
 path = ['tokenB','tokenA','tokenD','tokenC','tokenB']
 amounts = getAmountsOut('tokenB',5,path)
-print(amounts)
+# print(amounts)
+printFormat(path,amounts)
 
 # tokens = ['tokenA','tokenB','tokenC','tokenD','tokenE']
 # n = 1
