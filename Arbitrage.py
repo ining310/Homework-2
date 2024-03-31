@@ -1,4 +1,5 @@
 from itertools import combinations
+from itertools import permutations 
 
 liquidity = {
     ("tokenA", "tokenB"): (17, 10),
@@ -28,8 +29,7 @@ def getAmountsOut(factory, amountIn, path):
         print("UniswapV2Library: INVALID_PATH")
         return []
     amounts = [amountIn]
-    for i,factory in enumerate(path):
-        if (i >= len(path)-1): break
+    for i,factory in enumerate(path[:len(path)-1]):
         if (path[i]==path[i+1]):
             # print("consecutive same token")
             return []
@@ -58,20 +58,30 @@ def update(amountIn,amountOut,factory,token0,token1):
         liquidity[(tokenOut,tokenIn)] = (_reserveOut-amountOut,_reserveIn+amountIn)
 
 def printFormat(path, amounts):
-    for _path in path:
-        print(_path,sep="->",end=", ")
-    print(path[-1]," balance=",amounts[-1],sep="")
+    print(path[0],end="")
+    for _path in path[1:]:
+        print("->",_path,end="",sep="")
+    print(", ",path[-1]," balance=",amounts[-1],sep="")
 
 path = ['tokenB','tokenA','tokenD','tokenC','tokenB']
+# path = ['tokenB','tokenA','tokenD','tokenB']
 amounts = getAmountsOut('tokenB',5,path)
-# print(amounts)
+# print('amounts:',amounts)
 printFormat(path,amounts)
 
 # tokens = ['tokenA','tokenB','tokenC','tokenD','tokenE']
-# n = 1
-# comb = combinations(tokens, n)
+# tokens = ['tokenA','tokenC','tokenD','tokenE']
+# tokens = ['tokenC','tokenD','tokenE']
+# n = 4
+# # comb = combinations(tokens, n)
+# comb = permutations(tokens)
  
 # for _comb in list(comb):
-#     liquidity = liquidity_copied
-#     path = ['tokenB','tokenA','tokenE','tokenD']+list(_comb)+['tokenB']
+#     # liquidity = liquidity_copied
+#     path = ['tokenB']+list(_comb)+['tokenB']
 #     print (path,getAmountsOut('tokenB',5,path))
+
+# '''
+# ['tokenB', 'tokenA', 'tokenE', 'tokenD', 'tokenC', 'tokenB'] [5, 5.655321988655322, 1.0583153138066885, 2.429786260142227, 5.038996197252911, 20.042339589188174]
+# ['tokenB', 'tokenA', 'tokenD', 'tokenC', 'tokenB'] [5, 5.655321988655322, 2.4587813170979333, 5.0889272933015155, 20.129888944077443]
+# '''
