@@ -1,6 +1,3 @@
-from itertools import combinations
-from itertools import permutations 
-
 liquidity = {
     ("tokenA", "tokenB"): (17, 10),
     ("tokenA", "tokenC"): (11, 7),
